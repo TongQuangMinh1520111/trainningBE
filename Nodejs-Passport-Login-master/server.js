@@ -1,6 +1,6 @@
-if (process.env.NODE_ENV !== 'production') {
-  require('dotenv').config()
-}
+// if (process.env.NODE_ENV !== 'production') {
+//   require('dotenv').config()
+// }
 
 const express = require('express')
 const app = express()
@@ -23,9 +23,12 @@ app.set('view-engine', 'ejs')
 app.use(express.urlencoded({ extended: false }))
 app.use(flash())
 app.use(session({
-  secret: process.env.SESSION_SECRET,
-  resave: false,
-  saveUninitialized: false
+  // secret: process.env.SESSION_SECRET,
+  // resave: false,
+  // saveUninitialized: false
+  secret: "secret",
+  saveUninitialized: true,
+  resave: true,
 }))
 app.use(passport.initialize())
 app.use(passport.session())

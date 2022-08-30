@@ -1,4 +1,12 @@
-<h1>Hi <%= name %></h1>
-<form action="/logout?_method=DELETE" method="POST">
-  <button type="submit">Log Out</button>
-</form>
+<%- include('header'); -%>
+  <div id="contents">
+    <div class="inner">
+      <h2 class="c-ttl">wellcome <%= name %> to app</h2>
+      <div class="c_form">
+        <form action="/logout" method="POST">
+          <button type="submit">Log Out</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <%- include('footer'); -%>

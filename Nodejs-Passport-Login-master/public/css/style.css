@@ -1,0 +1,81 @@
+h1 {
+  font-size: 40px;
+  text-transform: capitalize;
+  text-align: center;
+  margin: 0;
+}
+
+.c-ttl {
+  font-size: 35px;
+  text-transform: capitalize;
+  text-align: center;
+  margin: 0 0 50px;
+}
+
+.btn01 {
+  width: 280px;
+  height: 50px;
+  margin: 30px auto 0;
+}
+
+.btn01 a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  color: #000;
+  text-decoration: none;
+  background: #fff;
+  border: 2px solid #000;
+  font-size: 16px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.inner {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.c_form {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.c_form dl {
+  display: flex;
+}
+
+.c_form dl dt {
+  display: flex;
+  align-items: center;
+  font-size: 20px;
+  font-weight: 700;
+  width: 20%;
+}
+
+.c_form dl dd {
+  width: 80%;
+}
+
+.c_form dl dd input {
+  width: 100%;
+  height: 50px;
+}
+
+.c_form button {
+  display: block;
+  width: 280px;
+  height: 50px;
+  background: #fff;
+  border: 2px solid #000;
+  font-size: 16px;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin: 60px auto 0;
+}
+
+header {
+  padding: 50px 0;
+}

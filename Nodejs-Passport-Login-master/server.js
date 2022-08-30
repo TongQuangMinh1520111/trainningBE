@@ -1,90 +1,50 @@
-// if (process.env.NODE_ENV !== 'production') {
-//   require('dotenv').config()
-// }
+const express = require("express");
+const app = express();
+const passport = require("passport");
+const flash = require("express-flash");
+const session = require("express-session");
+const path = require("path");
+const accountRouters = require("./src/routes/account.route");
+const personalRoute = require("./src/routes/personal.route");
+const initializePassport = require("./src/passport/passport-config");
+const checkAuth = require("./src/checkauth/account.checkauth");
 
-const express = require('express')
-const app = express()
-const bcrypt = require('bcrypt')
-const passport = require('passport')
-const flash = require('express-flash')
-const session = require('express-session')
-const methodOverride = require('method-override')
+initializePassport(passport);
+require("dotenv").config({
+  path: "./.dev.env",
+});
 
-const initializePassport = require('./passport-config')
-initializePassport(
-  passport,
-  email => users.find(user => user.email === email),
-  id => users.find(user => user.id === id)
-)
+app.set("view-engine", "ejs");
+app.use(express.static(path.join(__dirname, "public")));
+app.use(express.urlencoded({ extended: false }));
+app.use(flash());
+app.use(
+  session({
+    secret: process.env.SECRET,
+    saveUninitialized: true,
+    resave: true,
+  })
+);
+app.use(passport.initialize());
+app.use(passport.session());
 
-const users = []
+app.use("/account/", accountRouters);
 
-app.set('view-engine', 'ejs')
-app.use(express.urlencoded({ extended: false }))
-app.use(flash())
-app.use(session({
-  // secret: process.env.SESSION_SECRET,
-  // resave: false,
-  // saveUninitialized: false
-  secret: "secret",
-  saveUninitialized: true,
-  resave: true,
-}))
-app.use(passport.initialize())
-app.use(passport.session())
-app.use(methodOverride('_method'))
+app.get("/:id", checkAuth.checkAuthenticated, (req, res) => {
+  res.render("personal.ejs", { name: req.user.name });
+});
 
-app.get('/', checkAuthenticated, (req, res) => {
-  res.render('index.ejs', { name: req.user.name })
-})
+app.get("/", checkAuth.checkAuthenticated, (req, res) => {
+  res.render("index.ejs", { name: req.user.name });
+});
 
-app.get('/login', checkNotAuthenticated, (req, res) => {
-  res.render('login.ejs')
-})
+app.post("/logout/", (req, res) => {
+  req.logout(function (err) {
+    if (err) {
+      return next(err);
+    }
+    res.redirect("/account/login/");
+  });
+});
 
-app.post('/login', checkNotAuthenticated, passport.authenticate('local', {
-  successRedirect: '/',
-  failureRedirect: '/login',
-  failureFlash: true
-}))
-
-app.get('/register', checkNotAuthenticated, (req, res) => {
-  res.render('register.ejs')
-})
-
-app.post('/register', checkNotAuthenticated, async (req, res) => {
-  try {
-    const hashedPassword = await bcrypt.hash(req.body.password, 10)
-    users.push({
-      id: Date.now().toString(),
-      name: req.body.name,
-      email: req.body.email,
-      password: hashedPassword
-    })
-    res.redirect('/login')
-  } catch {
-    res.redirect('/register')
-  }
-})
-
-app.delete('/logout', (req, res) => {
-  req.logOut()
-  res.redirect('/login')
-})
-
-function checkAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) {
-    return next()
-  }
-
-  res.redirect('/login')
-}
-
-function checkNotAuthenticated(req, res, next) {
-  if (req.isAuthenticated()) {
-    return res.redirect('/')
-  }
-  next()
-}
-
-app.listen(3000)
+app.listen(3000);

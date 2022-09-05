@@ -10,9 +10,6 @@ function App() {
     axios
       .get("/api/hello")
       .then((data) => setData(data.data.message));
-      // .then((data) => {
-      //   console.log({ data });
-      // });
   }, []);
 
   return (

@@ -5,6 +5,7 @@ const bcrypt = require("bcrypt");
 const passport = require("passport");
 const AccountController = require("../controllers/account.controller");
 const checkAuth = require("../checkauth/account.checkauth");
+var jwt = require('jsonwebtoken');
 accountRouters.get(
   "/login/",
   checkAuth.checkNotAuthenticated,
@@ -23,6 +24,30 @@ accountRouters.post(
     return res.redirect(`/${req.user.id}`);
   }
 );
+
+
+accountRouters.post(
+  "/api-login",
+ 
+  function (req, res, next) {
+    console.log('FUCK')
+    // return res.redirect(`/${req.user.id}`);
+    var token = jwt.sign({"test": "ahihi"}, 'keyahihi');
+    res.json({
+      token
+    });
+  }
+);
+
+accountRouters.post(
+  "/api-list-user",
+  checkAuth.checkJWTAuthenticated,
+  function (req, res, next) {
+    res.json({"test": "ahihi"})
+  }
+);
+
+
 
 accountRouters.get("/register", checkAuth.checkNotAuthenticated, (req, res) => {
   res.render("register.ejs");

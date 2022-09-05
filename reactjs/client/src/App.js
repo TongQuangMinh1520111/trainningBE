@@ -7,13 +7,10 @@ const App = ()=> {
   const [data, setData] = React.useState([]);
   console.log(process.env.REACT_APP_BACK_END_HOST)
   React.useEffect(() => {
-<<<<<<< HEAD
     axios
       .get("/api/hello")
       .then((data) => setData(data.data.message));
-=======
     fetchData();
->>>>>>> 0fa7e0fa6e5bd822c94a8ab3f6f80e01574a4b3e
   }, []);
 
   const fetchData = async()=> {

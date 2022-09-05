@@ -8,6 +8,7 @@ const accountRouters = require("./src/routes/account.route");
 const personalRoute = require("./src/routes/personal.route");
 const initializePassport = require("./src/passport/passport-config");
 const checkAuth = require("./src/checkauth/account.checkauth");
+var bodyParser = require('body-parser')
 
 initializePassport(passport);
 require("dotenv").config({
@@ -17,6 +18,8 @@ require("dotenv").config({
 app.set("view-engine", "ejs");
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: false }));
+// app.use(bodyParser.urlencoded({ extended: false }))
+
 app.use(flash());
 app.use(
   session({
@@ -47,4 +50,4 @@ app.post("/logout/", (req, res) => {
   });
 });
 
-app.listen(3000);
+app.listen(8080);

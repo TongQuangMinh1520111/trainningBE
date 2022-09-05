@@ -1,22 +1,45 @@
 import logo from "./logo.svg";
-import "./App.css";
+// import "./App.css";
 import React from "react";
 import axios from "axios";
 
-function App() {
-  const [data, setData] = React.useState(null);
-
+const App = ()=> {
+  const [data, setData] = React.useState([]);
+  console.log(process.env.REACT_APP_BACK_END_HOST)
   React.useEffect(() => {
+<<<<<<< HEAD
     axios
       .get("/api/hello")
       .then((data) => setData(data.data.message));
+=======
+    fetchData();
+>>>>>>> 0fa7e0fa6e5bd822c94a8ab3f6f80e01574a4b3e
   }, []);
 
+  const fetchData = async()=> {
+    try {
+      var f = new FormData();
+      f.append("email", "quangminh15201111@gmail.com");
+      f.append("password", "123");
+      let response = await axios.post("/account/api-login", {
+        headers: { 
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        data: f
+      });
+      console.log(response)
+      setData(null)
+    } catch (err) {
+
+      console.log(err)
+    }
+  }
+  
   return (
     <div className="App">
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
-        <p>{!data ? "Loading..." : data}</p>
+        <p>{!data ? "Loading..." : JSON.stringify(data)}</p>
       </header>
     </div>
   );

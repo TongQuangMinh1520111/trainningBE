@@ -1,8 +1,5 @@
 var jwt = require('jsonwebtoken');
 
-
-
-
 const checkAuth = {
   checkAuthenticated: (req, res, next) => {
     if (req.isAuthenticated()) {
@@ -18,8 +15,6 @@ const checkAuth = {
   },
 
   checkJWTAuthenticated: (req, res, next) => {
-    // return next();
-    // get token
     try {
       let token = req.get('Authorization');
       token = token.split('Bearer ')[1];
@@ -29,11 +24,11 @@ const checkAuth = {
         next();
       } else {
         res.status(201);
-        res.json({"msg": "layj mas"});
+        res.json({"msg": "testtoken"});
       }
     } catch(err) {
-      res.status(201);
-      res.json({"msg": "layj mas"});
+      res.status(401);
+      res.json({"msg": "err"});
     }
   },
 };

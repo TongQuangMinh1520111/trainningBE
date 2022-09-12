@@ -7,9 +7,6 @@ const App = ()=> {
   const [data, setData] = React.useState([]);
   console.log(process.env.REACT_APP_BACK_END_HOST)
   React.useEffect(() => {
-    axios
-      .get("/api/hello")
-      .then((data) => setData(data.data.message));
     fetchData();
   }, []);
 
